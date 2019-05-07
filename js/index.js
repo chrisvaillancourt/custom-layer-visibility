@@ -42,18 +42,19 @@ function map() {
       // add layers to map
       map.addMany([states, counties]);
 
-      // add layerList widget to the top right of the UI
-      view.ui.add(layerList, "top-right");
-      counties.watch("visible", function (visible) {
-        if (visible) {
-          states.visible = false;
-        }
+      view.when(function () {
+        // wait until view is ready, then add layerList widget to the top right of the UI
+        view.ui.add(layerList, "top-right");
+        counties.watch("visible", function (visible) {
+          if (visible) {
+            states.visible = false;
+          }
+        });
+        states.watch("visible", function (visible) {
+          if (visible) {
+            counties.visible = false;
+          }
+        });
       });
-      states.watch("visible", function (visible) {
-        if (visible) {
-          counties.visible = false;
-        }
-      });
-
     });
 };
